@@ -9,14 +9,11 @@ require_once 'db.php';
 $application_id = $_POST['application_id'];
 $status_id = $_POST['status'];
 
-$stmt = $db->prepare("UPDATE application SET status_id = ? WHERE application_id = ?");
-$stmt->bind_param("ii", $status, $id_application);
-
-if ($stmt->execute()) {
-    $_SESSION['success'] = "Статус успешно обновлен";
-} else {
-    $_SESSION['error'] = "Ошибка при обновлении статуса: " . $stmt->error;
+$stmt ="UPDATE application SET status_id = $status_id WHERE application_id = $application_id";
+if($db->query($stmt)){
+    header("location: admin.php");
+}else{
+    echo 'error: ' . $db->error;
 }
-
-header("Location: admin.php");
-exit;
+exit();
+?>
